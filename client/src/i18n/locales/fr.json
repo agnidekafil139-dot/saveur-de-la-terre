@@ -1,0 +1,29 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "menu": "Menu",
+    "reservation": "Réservation"
+  },
+  "home": {
+    "heroTitle": "Une vraie cuisine familiale",
+    "welcomeText": "Depuis plus de 5 ans, nous vous proposons une cuisine authentique et faite maison."
+  },
+  "menu": {
+    "title": "Notre menu",
+    "search": "Rechercher un plat..."
+  },
+  "reservation": {
+    "title": "Réservez votre table",
+    "fullName": "Nom complet"
+  },
+  "reviews": {
+    "title": "Avis de nos clients"
+  },
+  "contact": {
+    "title": "Contactez-nous"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue"
+  }
+}

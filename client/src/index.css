@@ -1,0 +1,247 @@
+/* ============================================
+   IMPORTS
+   ============================================ */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap');
+
+/* Tailwind Base */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+@layer base {
+  * {
+    @apply border-gray-200;
+  }
+  
+  html {
+    @apply scroll-smooth;
+  }
+  
+  body {
+    @apply font-openSans text-gray-900 bg-white antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-poppins font-bold;
+  }
+  
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+  
+  h2 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+  
+  h4 {
+    @apply text-xl md:text-2xl;
+  }
+  
+  h5 {
+    @apply text-lg md:text-xl;
+  }
+  
+  h6 {
+    @apply text-base md:text-lg;
+  }
+  
+  p {
+    @apply leading-relaxed;
+  }
+  
+  a {
+    @apply transition-colors duration-200;
+  }
+  
+  img {
+    @apply max-w-full h-auto;
+  }
+}
+
+/* ============================================
+   COMPONENT STYLES
+   ============================================ */
+
+@layer components {
+  
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 
+           font-poppins font-semibold rounded-lg
+           transition-all duration-300 
+           focus:outline-none focus:ring-2 focus:ring-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed
+           select-none;
+  }
+  
+  .btn-primary {
+    @apply btn bg-primary text-white 
+           hover:bg-primary-700 hover:shadow-lg
+           focus:ring-primary
+           active:scale-95;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-transparent border-2 border-primary text-primary 
+           hover:bg-primary hover:text-white 
+           focus:ring-primary;
+  }
+  
+  .btn-accent {
+    @apply btn bg-accent text-white 
+           hover:bg-accent-600 hover:shadow-lg
+           focus:ring-accent
+           active:scale-95;
+  }
+  
+  .btn-danger {
+    @apply btn bg-danger text-white 
+           hover:bg-red-700 hover:shadow-lg
+           focus:ring-red-500;
+  }
+  
+  .btn-success {
+    @apply btn bg-success text-white 
+           hover:bg-green-700 hover:shadow-lg
+           focus:ring-green-500;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-card p-6
+           transition-all duration-300
+           hover:shadow-card-hover;
+  }
+  
+  .card-bordered {
+    @apply card border border-gray-200;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-3 
+           border border-gray-300 rounded-lg
+           text-gray-900 placeholder-gray-400
+           transition-all duration-200
+           focus:ring-2 focus:ring-primary focus:border-transparent
+           disabled:bg-gray-100 disabled:cursor-not-allowed;
+  }
+  
+  .input-field-error {
+    @apply input-field border-danger 
+           focus:ring-danger;
+  }
+  
+  .input-label {
+    @apply block font-poppins font-semibold mb-2 text-gray-700;
+  }
+  
+  .input-error {
+    @apply text-danger text-sm mt-1;
+  }
+  
+  .input-hint {
+    @apply text-gray-500 text-sm mt-1;
+  }
+  
+  .select-field {
+    @apply input-field cursor-pointer;
+  }
+  
+  .textarea-field {
+    @apply input-field resize-none;
+  }
+  
+  .section-title {
+    @apply text-3xl md:text-4xl lg:text-5xl 
+           font-bold text-primary 
+           mb-6 text-center;
+  }
+  
+  .section-description {
+    @apply text-lg text-gray-600 
+           text-center max-w-3xl mx-auto mb-12;
+  }
+  
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .badge {
+    @apply inline-flex items-center px-3 py-1 
+           rounded-full text-xs font-semibold;
+  }
+  
+  .badge-primary {
+    @apply badge bg-primary-100 text-primary-800;
+  }
+  
+  .alert {
+    @apply p-4 rounded-lg border flex items-start gap-3;
+  }
+  
+  .alert-success {
+    @apply alert bg-green-50 border-green-200 text-green-800;
+  }
+  
+  .alert-danger {
+    @apply alert bg-red-50 border-red-200 text-red-800;
+  }
+  
+  .divider {
+    @apply border-t border-gray-200 my-8;
+  }
+  
+  .spinner {
+    @apply inline-block animate-spin rounded-full 
+           border-4 border-gray-200 border-t-primary;
+  }
+  
+  .spinner-md {
+    @apply spinner w-8 h-8;
+  }
+}
+
+/* ============================================
+   UTILITIES
+   ============================================ */
+
+@layer utilities {
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .aspect-square {
+    aspect-ratio: 1 / 1;
+  }
+
+  .aspect-video {
+    aspect-ratio: 16 / 9;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
