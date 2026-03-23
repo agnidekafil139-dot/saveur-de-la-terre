@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { FaCalendar, FaClock, FaUser, FaPhone, FaEnvelope, FaWhatsapp, FaCheckCircle } from 'react-icons/fa';
+import { FaCalendar, FaClock, FaUser, FaPhone, FaEnvelope, FaWhatsapp, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
 import reservationAPI from '../services/reservationAPI';
 
 const Reservation = () => {
@@ -27,7 +27,19 @@ const Reservation = () => {
     setSubmitError('');
 
     try {
-      await reservationAPI.create(data);
+      // Adapter les champs du formulaire au backend
+      const payload = {
+        customerName: data.customerName,
+        email: data.customerEmail,
+        phone: data.customerPhone,
+        date: data.date,
+        time: data.time,
+        numberOfGuests: data.numberOfGuests,
+        specialRequest: data.specialRequest,
+        occasion: data.occasion
+      };
+
+      await reservationAPI.create(payload);
       setSubmitSuccess(true);
       reset();
       

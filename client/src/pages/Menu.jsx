@@ -1,9 +1,9 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { FaSearch, FaTimes } from 'react-icons/fa';
 import MenuCard from '../components/MenuCard';
-import Loading from '../components/Loading';
+import SkeletonCard from '../components/SkeletonCard';
 import ErrorMessage from '../components/ErrorMessage';
-import { useRestaurant } from '../context/RestaurantContext';
+import { useRestaurant } from '../context/useRestaurant';
 import { useDebounce } from 'use-debounce';
 
 const Menu = () => {
@@ -14,16 +14,18 @@ const Menu = () => {
 
   const categories = [
     { id: 'all', label: 'Tous les plats', icon: '🍽️' },
-    { id: 'meats', label: 'Viandes', icon: '🥩' },
-    { id: 'poultry', label: 'Volailles', icon: '🍗' },
-    { id: 'fish', label: 'Poissons', icon: '🐟' },
-    { id: 'pasta', label: 'Pâtes', icon: '🍝' },
+    { id: 'viandes', label: 'Viandes', icon: '🥩' },
+    { id: 'volailles', label: 'Volailles', icon: '🍗' },
+    { id: 'poissons', label: 'Poissons', icon: '🐟' },
+    { id: 'pâtes', label: 'Pâtes', icon: '🍝' },
     { id: 'desserts', label: 'Desserts', icon: '🍰' },
   ];
 
   useEffect(() => {
-    refreshData();
-  }, [refreshData]);
+    if (!loading && !error && menuItems.length === 0) {
+      refreshData();
+    }
+  }, [loading, error, menuItems.length, refreshData]);
 
   const filteredItems = useMemo(() => {
     let filtered = menuItems;
@@ -48,9 +50,6 @@ const Menu = () => {
   const clearSearch = () => {
     setSearchQuery('');
   };
-
-  if (loading) return <Loading />;
-  if (error) return <ErrorMessage message={error} onRetry={refreshData} />;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -120,23 +119,38 @@ const Menu = () => {
       {/* RESULTS */}
       <section className="py-12 px-4">
         <div className="container-custom">
+          {error && (
+            <div className="mb-8">
+              <ErrorMessage message={error} onRetry={refreshData} />
+            </div>
+          )}
           {/* Counter */}
           <div className="text-center mb-8">
             <p className="text-lg text-gray-600">
-              <span className="font-bold text-primary">{filteredItems.length}</span>{' '}
-              {filteredItems.length === 1 ? 'plat trouvé' : 'plats trouvés'}
-              {selectedCategory !== 'all' && (
-                <span>
-                  {' '}dans <span className="font-semibold">
-                    {categories.find(c => c.id === selectedCategory)?.label}
-                  </span>
-                </span>
+              {loading ? (
+                <span className="animate-pulse">Chargement...</span>
+              ) : (
+                <>
+                  <span className="font-bold text-primary">{filteredItems.length}</span>{' '}
+                  {filteredItems.length === 1 ? 'plat trouvé' : 'plats trouvés'}
+                  {selectedCategory !== 'all' && (
+                    <span>
+                      {' '}dans <span className="font-semibold">
+                        {categories.find(c => c.id === selectedCategory)?.label}
+                      </span>
+                    </span>
+                  )}
+                </>
               )}
             </p>
           </div>
 
           {/* Plate Grid */}
-          {filteredItems.length > 0 ? (
+          {loading ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...Array(6)].map((_, i) => <SkeletonCard key={i} />)}
+            </div>
+          ) : filteredItems.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredItems.map((item) => (
                 <MenuCard key={item._id} item={item} />

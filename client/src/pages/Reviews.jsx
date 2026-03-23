@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaStar, FaCheckCircle } from 'react-icons/fa';
 import ReviewCard from '../components/ReviewCard';
-import Loading from '../components/Loading';
+import SkeletonReview from '../components/SkeletonReview';
 import ErrorMessage from '../components/ErrorMessage';
-import { useRestaurant } from '../context/RestaurantContext';
+import { useRestaurant } from '../context/useRestaurant';
 import reviewAPI from '../services/reviewAPI';
 
 const Reviews = () => {
@@ -29,8 +29,8 @@ const Reviews = () => {
       setTimeout(() => {
         setSubmitSuccess(false);
       }, 5000);
-    } catch (error) {
-      alert(error.response?.data?.message || 'Une erreur est survenue');
+    } catch (err) {
+      alert(err.response?.data?.message || 'Une erreur est survenue');
     } finally {
       setIsSubmitting(false);
     }
@@ -43,9 +43,6 @@ const Reviews = () => {
     2: 'Moyen',
     1: 'Décevant'
   };
-
-  if (loading) return <Loading />;
-  if (error) return <ErrorMessage message={error} onRetry={refreshData} />;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -61,8 +58,33 @@ const Reviews = () => {
         </div>
       </section>
 
+      {error && (
+        <div className="container-custom py-8">
+          <ErrorMessage message={error} onRetry={refreshData} />
+        </div>
+      )}
       {/* STATS */}
-      {reviewStats && (
+      {loading && !reviewStats ? (
+        <section className="py-12 px-4 bg-white">
+          <div className="container-custom max-w-4xl">
+            <div className="grid md:grid-cols-2 gap-8 animate-pulse">
+              <div className="text-center">
+                <div className="h-6 bg-gray-200 rounded w-32 mx-auto mb-4" />
+                <div className="h-16 bg-gray-200 rounded w-24 mx-auto mb-3" />
+                <div className="h-8 bg-gray-200 rounded w-full max-w-[200px] mx-auto" />
+              </div>
+              <div>
+                <div className="h-6 bg-gray-200 rounded w-40 mb-4" />
+                <div className="space-y-2">
+                  {[...Array(5)].map((_, i) => (
+                    <div key={i} className="h-4 bg-gray-200 rounded" />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : reviewStats && (
         <section className="py-12 px-4 bg-white">
           <div className="container-custom max-w-4xl">
             <div className="grid md:grid-cols-2 gap-8">
@@ -98,7 +120,7 @@ const Reviews = () => {
                 </h3>
                 <div className="space-y-2">
                   {[5, 4, 3, 2, 1].map((star) => {
-                    const count = reviewStats.distribution?.[star] || 0;
+                    const count = reviewStats.ratingDistribution?.[star] || 0;
                     const percentage = reviewStats.totalReviews > 0
                       ? (count / reviewStats.totalReviews) * 100
                       : 0;
@@ -254,7 +276,11 @@ const Reviews = () => {
             Tous les avis
           </h2>
 
-          {reviews && reviews.length > 0 ? (
+          {loading ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...Array(6)].map((_, i) => <SkeletonReview key={i} />)}
+            </div>
+          ) : reviews && reviews.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {reviews.map((review) => (
                 <ReviewCard key={review._id} review={review} />

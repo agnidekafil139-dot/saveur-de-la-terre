@@ -74,27 +74,41 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Lancer le serveur
-const PORT = process.env.PORT || 5000;
+// Lancer le serveur (fallback si port occupé)
+const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 5000;
 
-const server = app.listen(PORT, () => {
-  console.log(`Serveur démarré sur le port ${PORT}`);
-  console.log(`Environnement: ${process.env.NODE_ENV}`);
-  console.log(`API disponible sur: http://localhost:${PORT}`);
-  console.log(`Endpoints:`);
-  console.log(`GET  /api/menu`);
-  console.log(`GET  /api/reviews`);
-  console.log(`POST /api/reservations`);
-  console.log(`POST /api/contact`);
-});
+const startServer = (port) => {
+  const server = app.listen(port, () => {
+    console.log(`Serveur démarré sur le port ${port}`);
+    console.log(`Environnement: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`API disponible sur: http://localhost:${port}`);
+    console.log(`Endpoints: /api/menu | /api/reviews | /api/reservations | /api/contact`);
 
-// Shutdown propre
-process.on('SIGTERM', () => {
-  console.log('SIGTERM reçu. Arrêt du serveur...');
-  server.close(() => {
-    console.log('Serveur arrêté proprement');
-    process.exit(0);
+    process.on('SIGTERM', () => {
+      console.log('SIGTERM reçu. Arrêt du serveur...');
+      server.close(() => {
+        console.log('Serveur arrêté proprement');
+        process.exit(0);
+      });
+    });
   });
-});
+
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      const nextPort = port + 1;
+      if (nextPort <= 5010) {
+        console.log(`Port ${port} occupé, tentative sur le port ${nextPort}...`);
+        startServer(nextPort);
+      } else {
+        console.error(`Tous les ports 5000-5010 sont occupés. Arrêtez l'autre processus ou définissez PORT dans .env`);
+        process.exit(1);
+      }
+    } else {
+      throw err;
+    }
+  });
+};
+
+startServer(DEFAULT_PORT);
 
 export default app;

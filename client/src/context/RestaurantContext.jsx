@@ -1,24 +1,15 @@
-import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import menuAPI from '../services/menuAPI';
 import reviewAPI from '../services/reviewAPI';
-
-const RestaurantContext = createContext();
-
-export const useRestaurant = () => {
-  const context = useContext(RestaurantContext);
-  if (!context) {
-    throw new Error('useRestaurant must be used within RestaurantProvider');
-  }
-  return context;
-};
+import RestaurantContext from './restaurantCtx';
 
 export const RestaurantProvider = ({ children }) => {
   const [menuItems, setMenuItems] = useState([]);
   const [favoriteItems, setFavoriteItems] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [reviewStats, setReviewStats] = useState(null);
-  const [loading, setLoading] = useState(true); // TRUE par défaut
+  const [loading, setLoading] = useState(false); // Non bloquant : affichage immédiat
   const [error, setError] = useState(null);
   const [isInitialized, setIsInitialized] = useState(false); // ← NOUVEAU
 
@@ -30,6 +21,7 @@ export const RestaurantProvider = ({ children }) => {
     } catch (err) {
       console.error('Error fetching menu:', err);
       setMenuItems([]);
+      throw err;
     }
   }, []);
 
@@ -40,6 +32,7 @@ export const RestaurantProvider = ({ children }) => {
     } catch (err) {
       console.error('Error fetching favorites:', err);
       setFavoriteItems([]);
+      throw err;
     }
   }, []);
 
@@ -50,6 +43,7 @@ export const RestaurantProvider = ({ children }) => {
     } catch (err) {
       console.error('Error fetching reviews:', err);
       setReviews([]);
+      throw err;
     }
   }, []);
 
@@ -60,6 +54,7 @@ export const RestaurantProvider = ({ children }) => {
     } catch (err) {
       console.error('Error fetching stats:', err);
       setReviewStats(null);
+      throw err;
     }
   }, []);
 

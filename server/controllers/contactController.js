@@ -1,4 +1,6 @@
+import mongoose from 'mongoose';
 import Contact from '../models/Contact.js';
+
 // @desc    Créer un nouveau message de contact
 // @route   POST /api/contact
 // @access  Public
@@ -12,16 +14,23 @@ export const createContact = async (req, res) => {
       subject,
       message
     });
-    // TODO: Envoyer un email de notification (optionnel)
     res.status(201).json({
       success: true,
       message: 'Message envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.',
       data: contact
     });
   } catch (error) {
+    if (error instanceof mongoose.Error.ValidationError) {
+      const messages = Object.values(error.errors).map((err) => err.message);
+      return res.status(400).json({
+        success: false,
+        message: 'Données invalides',
+        errors: messages
+      });
+    }
     res.status(400).json({
       success: false,
-      message: 'Erreur lors de l\'envoi du message',
+      message: "Erreur lors de l'envoi du message",
       error: error.message
     });
   }

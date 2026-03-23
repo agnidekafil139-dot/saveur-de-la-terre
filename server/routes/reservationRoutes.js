@@ -6,6 +6,11 @@ import {
   updateReservation,
   deleteReservation
 } from '../controllers/reservationController.js';
+import {
+  createReservationValidation,
+  checkAvailabilityValidation
+} from '../validators/reservationValidator.js';
+import { validate } from '../middleware/validate.js';
 
 const router = express.Router();
 
@@ -15,11 +20,11 @@ const router = express.Router();
  * ===============================
  */
 
-// Créer une réservation
-router.post('/', createReservation);
+// Vérifier les disponibilités (doit être avant /:id)
+router.get('/availability', checkAvailabilityValidation, validate, checkAvailability);
 
-// Vérifier les disponibilités
-router.get('/availability', checkAvailability);
+// Créer une réservation
+router.post('/', createReservationValidation, validate, createReservation);
 
 
 /**
@@ -29,7 +34,7 @@ router.get('/availability', checkAvailability);
  */
 
 // Récupérer toutes les réservations
-router.get('/', getReservations);
+router.get('/', getReservations); // GET /api/reservations (liste)
 
 // Mettre à jour une réservation
 router.put('/:id', updateReservation);

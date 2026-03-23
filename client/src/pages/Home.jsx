@@ -1,37 +1,15 @@
-import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaStar, FaUtensils, FaUsers, FaParking } from 'react-icons/fa';
 import MenuCard from '../components/MenuCard';
 import ReviewCard from '../components/ReviewCard';
-import Loading from '../components/Loading';
+import SkeletonCard from '../components/SkeletonCard';
+import SkeletonReview from '../components/SkeletonReview';
 import ErrorMessage from '../components/ErrorMessage';
-import { useRestaurant } from '../context/RestaurantContext';
+import { useRestaurant } from '../context/useRestaurant';
 
 const Home = () => {
   const { favoriteItems, reviews, reviewStats, loading, error, refreshData } = useRestaurant();
   const navigate = useNavigate();
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
-
-  useEffect(() => {
-    const loadData = async () => {
-      await refreshData();
-      setIsInitialLoad(false);
-    };
-    
-    if (isInitialLoad) {
-      loadData();
-    }
-  }, [isInitialLoad]);
-
-  // LOADING STATE
-  if (loading && isInitialLoad) {
-    return <Loading />;
-  }
-
-  // ERROR STATE
-  if (error && isInitialLoad) {
-    return <ErrorMessage message={error} onRetry={refreshData} />;
-  }
 
   return (
     <div className="min-h-screen">
@@ -39,7 +17,7 @@ const Home = () => {
       <section 
         className="relative h-screen bg-cover bg-center"
         style={{ 
-          backgroundImage: "url('/images/hero/home-hero.jpg')",
+          backgroundImage: "url('/images/hero/home-hero.jpeg')",
           backgroundColor: '#2D5016' // Fallback color
         }}
       >
@@ -128,11 +106,16 @@ const Home = () => {
             Nos spécialités préférées des clients
           </p>
 
+          {/* Erreur API */}
+          {error && (
+            <div className="mb-8">
+              <ErrorMessage message={error} onRetry={refreshData} />
+            </div>
+          )}
           {/* GESTION ÉTATS VIDES/LOADING */}
-          {loading && !isInitialLoad ? (
-            <div className="text-center py-8">
-              <div className="spinner mx-auto mb-4"></div>
-              <p className="text-gray-500">Chargement des plats...</p>
+          {loading ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...Array(3)].map((_, i) => <SkeletonCard key={i} />)}
             </div>
           ) : favoriteItems && favoriteItems.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -163,7 +146,12 @@ const Home = () => {
           <h2 className="section-title">Ce qu'on dit de nous</h2>
           
           {/* Stats */}
-          {reviewStats && (
+          {loading && !reviewStats ? (
+            <div className="text-center mb-12 animate-pulse">
+              <div className="h-8 bg-gray-200 rounded w-24 mx-auto mb-2" />
+              <div className="h-4 bg-gray-200 rounded w-32 mx-auto" />
+            </div>
+          ) : reviewStats && (
             <div className="text-center mb-12">
               <div className="flex items-center justify-center gap-2 mb-2">
                 <div className="flex">
@@ -189,10 +177,9 @@ const Home = () => {
           )}
 
           {/* Avis */}
-          {loading && !isInitialLoad ? (
-            <div className="text-center py-8">
-              <div className="spinner mx-auto mb-4"></div>
-              <p className="text-gray-500">Chargement des avis...</p>
+          {loading ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+              {[...Array(3)].map((_, i) => <SkeletonReview key={i} />)}
             </div>
           ) : reviews && reviews.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">

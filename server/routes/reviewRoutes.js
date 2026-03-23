@@ -5,6 +5,8 @@ import {
   getReviewStats,
   approveReview
 } from '../controllers/reviewController.js';
+import { createReviewValidation } from '../validators/reviewValidator.js';
+import { validate } from '../middleware/validate.js';
 
 const router = express.Router();
 
@@ -17,11 +19,11 @@ const router = express.Router();
 // Récupérer les avis approuvés
 router.get('/', getReviews);
 
-// Créer un avis
-router.post('/', createReview);
-
-// Statistiques des avis
+// Statistiques des avis (doit être avant /:id)
 router.get('/stats', getReviewStats);
+
+// Créer un avis
+router.post('/', createReviewValidation, validate, createReview);
 
 
 /**

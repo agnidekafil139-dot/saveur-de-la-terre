@@ -4,6 +4,8 @@ import {
   getContacts,
   updateContactStatus
 } from '../controllers/contactController.js';
+import { createContactValidation } from '../validators/contactValidator.js';
+import { validate } from '../middleware/validate.js';
 
 const router = express.Router();
 
@@ -14,7 +16,7 @@ const router = express.Router();
  */
 
 // Envoyer un message via le formulaire de contact
-router.post('/', createContact);
+router.post('/', createContactValidation, validate, createContact);
 
 
 /**

@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Reservation from '../models/Reservation.js';
 
 // @desc    Créer une nouvelle réservation
@@ -55,6 +56,14 @@ export const createReservation = async (req, res) => {
     });
 
   } catch (error) {
+    if (error instanceof mongoose.Error.ValidationError) {
+      const messages = Object.values(error.errors).map((err) => err.message);
+      return res.status(400).json({
+        success: false,
+        message: 'Données invalides',
+        errors: messages
+      });
+    }
     res.status(400).json({
       success: false,
       message: 'Erreur lors de la création de la réservation',
@@ -106,14 +115,6 @@ export const getReservations = async (req, res) => {
 export const checkAvailability = async (req, res) => {
   try {
     const { date, time } = req.query;
-
-    if (!date || !time) {
-      return res.status(400).json({
-        success: false,
-        message: 'Date et heure sont requis'
-      });
-    }
-
     const reservationDate = new Date(date);
 
     const existingReservations = await Reservation.find({

@@ -33,31 +33,21 @@ export const createReview = async (req, res) => {
   try {
     const { customerName, rating, comment, visitDate } = req.body;
 
-    // Validation simple
-    if (!customerName || !rating || !comment) {
-      return res.status(400).json({
-        success: false,
-        message: 'Nom, note et commentaire sont obligatoires'
-      });
-    }
-
-    if (rating < 1 || rating > 5) {
-      return res.status(400).json({
-        success: false,
-        message: 'La note doit être comprise entre 1 et 5'
-      });
-    }
+    const autoApprove = String(process.env.AUTO_APPROVE_REVIEWS || '').toLowerCase() === 'true';
 
     const review = await Review.create({
       customerName,
       rating: Number(rating),
       comment,
-      visitDate: visitDate ? new Date(visitDate) : new Date()
+      visitDate: visitDate ? new Date(visitDate) : new Date(),
+      approved: autoApprove
     });
 
     res.status(201).json({
       success: true,
-      message: 'Merci pour votre avis ! Il sera publié après modération.',
+      message: autoApprove
+        ? 'Merci pour votre avis ! Il est publié immédiatement.'
+        : 'Merci pour votre avis ! Il sera publié après modération.',
       data: review
     });
 
