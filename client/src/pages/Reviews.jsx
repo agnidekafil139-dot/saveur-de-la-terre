@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaStar, FaCheckCircle } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 import ReviewCard from '../components/ReviewCard';
 import SkeletonReview from '../components/SkeletonReview';
 import ErrorMessage from '../components/ErrorMessage';
@@ -13,6 +14,7 @@ const Reviews = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const { t } = useTranslation();
 
   const rating = watch('rating', 5);
 
@@ -30,18 +32,18 @@ const Reviews = () => {
         setSubmitSuccess(false);
       }, 5000);
     } catch (err) {
-      alert(err.response?.data?.message || 'Une erreur est survenue');
+      alert(err.response?.data?.message || t('common.error'));
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const ratingLabels = {
-    5: 'Excellent !',
-    4: 'Très bien',
-    3: 'Bien',
-    2: 'Moyen',
-    1: 'Décevant'
+    5: t('reviews.ratingExcellent'),
+    4: t('reviews.ratingVeryGood'),
+    3: t('reviews.ratingGood'),
+    2: t('reviews.ratingAverage'),
+    1: t('reviews.ratingPoor')
   };
 
   return (
@@ -50,10 +52,10 @@ const Reviews = () => {
       <section className="bg-primary text-white py-16 px-4">
         <div className="container-custom text-center">
           <h1 className="text-4xl md:text-5xl font-poppins font-bold mb-4">
-            Avis de nos Clients
+            {t('reviews.title')}
           </h1>
           <p className="text-xl">
-            Ce que nos clients disent de nous
+            {t('reviews.subtitle')}
           </p>
         </div>
       </section>
@@ -63,6 +65,7 @@ const Reviews = () => {
           <ErrorMessage message={error} onRetry={refreshData} />
         </div>
       )}
+
       {/* STATS */}
       {loading && !reviewStats ? (
         <section className="py-12 px-4 bg-white">
@@ -91,7 +94,7 @@ const Reviews = () => {
               {/* Note moyenne */}
               <div className="text-center">
                 <h3 className="text-lg font-semibold text-gray-700 mb-4">
-                  Note moyenne
+                  {t('reviews.averageRating')}
                 </h3>
                 <div className="text-6xl font-bold text-primary mb-3">
                   {reviewStats.averageRating ? reviewStats.averageRating.toFixed(1) : '0.0'}
@@ -109,14 +112,14 @@ const Reviews = () => {
                   ))}
                 </div>
                 <p className="text-gray-600">
-                  {reviewStats.totalReviews || 0} avis
+                  {reviewStats.totalReviews || 0} {t('reviews.reviewsCount')}
                 </p>
               </div>
 
               {/* Distribution */}
               <div>
                 <h3 className="text-lg font-semibold text-gray-700 mb-4 text-center md:text-left">
-                  Distribution des notes
+                  {t('reviews.ratingDistribution')}
                 </h3>
                 <div className="space-y-2">
                   {[5, 4, 3, 2, 1].map((star) => {
@@ -153,7 +156,7 @@ const Reviews = () => {
                   onClick={() => setShowForm(true)}
                   className="btn-primary"
                 >
-                  Laisser un avis
+                  {t('reviews.leaveReview')}
                 </button>
               )}
             </div>
@@ -167,16 +170,16 @@ const Reviews = () => {
           <div className="container-custom max-w-2xl">
             <div className="card">
               <h3 className="text-2xl font-bold text-primary mb-6 text-center">
-                Partagez votre expérience
+                {t('reviews.shareExperience')}
               </h3>
 
               {submitSuccess && (
                 <div className="alert-success mb-6">
                   <FaCheckCircle className="text-2xl" />
                   <div>
-                    <p className="font-semibold">Merci pour votre avis !</p>
+                    <p className="font-semibold">{t('reviews.thankYou')}</p>
                     <p className="text-sm">
-                      Votre avis sera publié après modération
+                      {t('reviews.moderationNote')}
                     </p>
                   </div>
                 </div>
@@ -185,15 +188,15 @@ const Reviews = () => {
               <form onSubmit={handleSubmit(onSubmit)}>
                 {/* Nom */}
                 <div className="mb-6">
-                  <label className="input-label">Votre nom *</label>
+                  <label className="input-label">{t('reviews.yourName')}</label>
                   <input
                     type="text"
                     {...register('customerName', {
-                      required: 'Le nom est requis',
-                      minLength: { value: 2, message: 'Minimum 2 caractères' }
+                      required: t('reviews.nameRequired'),
+                      minLength: { value: 2, message: t('reviews.minChars2') }
                     })}
                     className={errors.customerName ? 'input-field-error' : 'input-field'}
-                    placeholder="Ex: Maria Silva"
+                    placeholder={t('reviews.namePlaceholder')}
                   />
                   {errors.customerName && (
                     <p className="input-error">{errors.customerName.message}</p>
@@ -202,7 +205,7 @@ const Reviews = () => {
 
                 {/* Note */}
                 <div className="mb-6">
-                  <label className="input-label">Votre note *</label>
+                  <label className="input-label">{t('reviews.yourRating')}</label>
                   <div className="flex items-center gap-4 mb-2">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <label key={star} className="cursor-pointer">
@@ -227,22 +230,22 @@ const Reviews = () => {
 
                 {/* Commentaire */}
                 <div className="mb-6">
-                  <label className="input-label">Votre commentaire *</label>
+                  <label className="input-label">{t('reviews.yourComment')}</label>
                   <textarea
                     {...register('comment', {
-                      required: 'Le commentaire est requis',
-                      minLength: { value: 10, message: 'Minimum 10 caractères' },
-                      maxLength: { value: 500, message: 'Maximum 500 caractères' }
+                      required: t('reviews.commentRequired'),
+                      minLength: { value: 10, message: t('reviews.minChars10') },
+                      maxLength: { value: 500, message: t('reviews.maxChars500') }
                     })}
                     className={errors.comment ? 'input-field-error' : 'textarea-field'}
                     rows="5"
-                    placeholder="Parlez-nous de votre expérience..."
+                    placeholder={t('reviews.commentPlaceholder')}
                   />
                   {errors.comment && (
                     <p className="input-error">{errors.comment.message}</p>
                   )}
                   <p className="input-hint">
-                    {watch('comment')?.length || 0} / 500 caractères
+                    {watch('comment')?.length || 0} / 500 {t('reviews.characters')}
                   </p>
                 </div>
 
@@ -253,14 +256,14 @@ const Reviews = () => {
                     disabled={isSubmitting}
                     className="btn-primary flex-1"
                   >
-                    {isSubmitting ? 'Envoi...' : 'Publier mon avis'}
+                    {isSubmitting ? t('reviews.submitting') : t('reviews.publishReview')}
                   </button>
                   <button
                     type="button"
                     onClick={() => setShowForm(false)}
                     className="btn-outline"
                   >
-                    Annuler
+                    {t('reviews.cancel')}
                   </button>
                 </div>
               </form>
@@ -273,7 +276,7 @@ const Reviews = () => {
       <section className="py-12 px-4">
         <div className="container-custom">
           <h2 className="text-3xl font-bold text-primary mb-8 text-center">
-            Tous les avis
+            {t('reviews.allReviews')}
           </h2>
 
           {loading ? (
@@ -289,17 +292,17 @@ const Reviews = () => {
           ) : (
             <div className="text-center py-16">
               <p className="text-xl text-gray-500 mb-4">
-                Aucun avis pour le moment
+                {t('reviews.noReviews')}
               </p>
               <p className="text-gray-400 mb-8">
-                Soyez le premier à partager votre expérience !
+                {t('reviews.beFirst')}
               </p>
               {!showForm && (
                 <button
                   onClick={() => setShowForm(true)}
                   className="btn-primary"
                 >
-                  Laisser le premier avis
+                  {t('reviews.leaveFirst')}
                 </button>
               )}
             </div>

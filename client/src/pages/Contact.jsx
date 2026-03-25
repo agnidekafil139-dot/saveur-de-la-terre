@@ -1,21 +1,23 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaWhatsapp, FaClock, FaCheckCircle } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 import contactAPI from '../services/contactAPI';
 
 const Contact = () => {
   const { register, handleSubmit, formState: { errors }, reset, watch } = useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const { t } = useTranslation();
 
   const subjects = [
-    { value: 'reservation', label: 'Réservation' },
-    { value: 'menu', label: 'Question sur le menu' },
-    { value: 'event', label: 'Événement privé' },
-    { value: 'suggestion', label: 'Suggestion' },
-    { value: 'complaint', label: 'Réclamation' },
-    { value: 'career', label: 'Opportunités de carrière' },
-    { value: 'other', label: 'Autre' },
+    { value: 'reservation', label: t('contact.subjectReservation') },
+    { value: 'menu', label: t('contact.subjectMenu') },
+    { value: 'event', label: t('contact.subjectEvent') },
+    { value: 'suggestion', label: t('contact.subjectSuggestion') },
+    { value: 'complaint', label: t('contact.subjectComplaint') },
+    { value: 'career', label: t('contact.subjectCareer') },
+    { value: 'other', label: t('contact.subjectOther') },
   ];
 
   const onSubmit = async (data) => {
@@ -30,7 +32,7 @@ const Contact = () => {
         setSubmitSuccess(false);
       }, 5000);
     } catch (error) {
-      alert(error.response?.data?.message || 'Une erreur est survenue');
+      alert(error.response?.data?.message || t('common.error'));
     } finally {
       setIsSubmitting(false);
     }
@@ -42,10 +44,10 @@ const Contact = () => {
       <section className="bg-primary text-white py-16 px-4">
         <div className="container-custom text-center">
           <h1 className="text-4xl md:text-5xl font-poppins font-bold mb-4">
-            Contactez-nous
+            {t('contact.title')}
           </h1>
           <p className="text-xl">
-            Nous sommes là pour vous aider !
+            {t('contact.subtitle')}
           </p>
         </div>
       </section>
@@ -56,7 +58,7 @@ const Contact = () => {
             {/* INFOS CONTACT */}
             <div>
               <h2 className="text-3xl font-bold text-primary mb-8">
-                Nos Coordonnées
+                {t('contact.coordinates')}
               </h2>
 
               <div className="space-y-6">
@@ -66,7 +68,7 @@ const Contact = () => {
                     <FaMapMarkerAlt className="text-2xl text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg mb-2">Adresse</h3>
+                    <h3 className="font-bold text-lg mb-2">{t('contact.address')}</h3>
                     <p className="text-gray-600 mb-2">
                       Rua das Flores, 123<br />
                       Cruzeiro do Oeste - PR<br />
@@ -78,7 +80,7 @@ const Contact = () => {
                       rel="noopener noreferrer"
                       className="text-primary hover:text-primary-700 font-semibold text-sm"
                     >
-                      Voir sur Google Maps →
+                      {t('contact.viewOnMaps')}
                     </a>
                   </div>
                 </div>
@@ -89,7 +91,7 @@ const Contact = () => {
                     <FaPhone className="text-2xl text-secondary" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg mb-2">Téléphone</h3>
+                    <h3 className="font-bold text-lg mb-2">{t('contact.phone')}</h3>
                     <a
                       href="tel:+55 44 9914-8762"
                       className="text-gray-600 hover:text-primary font-semibold"
@@ -104,7 +106,7 @@ const Contact = () => {
                     <FaWhatsapp className="text-2xl text-white" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg mb-2">WhatsApp</h3>
+                    <h3 className="font-bold text-lg mb-2">{t('contact.whatsapp')}</h3>
                     <a
                       href="https://wa.me/554499148762"
                       target="_blank"
@@ -114,7 +116,7 @@ const Contact = () => {
                       +55 44 9914-8762
                     </a>
                     <p className="text-sm text-green-600 mt-1">
-                      ⚡ Moyen le plus rapide !
+                      {t('contact.fastestWay')}
                     </p>
                   </div>
                 </div>
@@ -125,7 +127,7 @@ const Contact = () => {
                     <FaEnvelope className="text-2xl text-accent" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg mb-2">E-mail</h3>
+                    <h3 className="font-bold text-lg mb-2">{t('contact.email')}</h3>
                     <a
                       href="mailto:contact@saveurdelaterre.com"
                       className="text-gray-600 hover:text-primary font-semibold break-all"
@@ -141,18 +143,18 @@ const Contact = () => {
                     <FaClock className="text-2xl text-primary" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-lg mb-3">Horaires</h3>
+                    <h3 className="font-bold text-lg mb-3">{t('contact.hours')}</h3>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-gray-600">Lundi - Vendredi</span>
+                        <span className="text-gray-600">{t('contact.monFri')}</span>
                         <span className="font-semibold">11h - 14h / 18h - 22h</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-600">Samedi</span>
+                        <span className="text-gray-600">{t('contact.saturday')}</span>
                         <span className="font-semibold">11h - 15h / 18h - 23h</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-600">Dimanche</span>
+                        <span className="text-gray-600">{t('contact.sunday')}</span>
                         <span className="font-semibold">11h - 15h</span>
                       </div>
                     </div>
@@ -164,16 +166,16 @@ const Contact = () => {
             {/* FORMULAIRE */}
             <div>
               <h2 className="text-3xl font-bold text-primary mb-8">
-                Envoyez-nous un message
+                {t('contact.sendMessage')}
               </h2>
 
               {submitSuccess && (
                 <div className="alert-success mb-6">
                   <FaCheckCircle className="text-2xl" />
                   <div>
-                    <p className="font-semibold">Message envoyé avec succès !</p>
+                    <p className="font-semibold">{t('contact.successTitle')}</p>
                     <p className="text-sm">
-                      Nous vous répondrons dans les plus brefs délais.
+                      {t('contact.successText')}
                     </p>
                   </div>
                 </div>
@@ -183,16 +185,16 @@ const Contact = () => {
                 {/* Nom */}
                 <div className="mb-6">
                   <label className="input-label">
-                    Nom complet *
+                    {t('contact.fullName')}
                   </label>
                   <input
                     type="text"
                     {...register('name', {
-                      required: 'Le nom est requis',
-                      minLength: { value: 2, message: 'Minimum 2 caractères' }
+                      required: t('contact.nameRequired'),
+                      minLength: { value: 2, message: t('contact.minChars2') }
                     })}
                     className={errors.name ? 'input-field-error' : 'input-field'}
-                    placeholder="Ex: Maria Silva"
+                    placeholder={t('contact.namePlaceholder')}
                   />
                   {errors.name && (
                     <p className="input-error">{errors.name.message}</p>
@@ -202,19 +204,19 @@ const Contact = () => {
                 {/* Email */}
                 <div className="mb-6">
                   <label className="input-label">
-                    Email *
+                    {t('contact.emailLabel')}
                   </label>
                   <input
                     type="email"
                     {...register('email', {
-                      required: 'L\'email est requis',
+                      required: t('contact.emailRequired'),
                       pattern: {
                         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: 'Email invalide'
+                        message: t('contact.emailInvalid')
                       }
                     })}
                     className={errors.email ? 'input-field-error' : 'input-field'}
-                    placeholder="exemple@email.com"
+                    placeholder={t('contact.emailPlaceholder')}
                   />
                   {errors.email && (
                     <p className="input-error">{errors.email.message}</p>
@@ -224,26 +226,26 @@ const Contact = () => {
                 {/* Téléphone */}
                 <div className="mb-6">
                   <label className="input-label">
-                    Téléphone
+                    {t('contact.phoneLabel')}
                   </label>
                   <input
                     type="tel"
                     {...register('phone')}
                     className="input-field"
-                    placeholder="++55 44 9914-8762"
+                    placeholder={t('contact.phonePlaceholder')}
                   />
                 </div>
 
                 {/* Sujet */}
                 <div className="mb-6">
                   <label className="input-label">
-                    Sujet *
+                    {t('contact.subjectLabel')}
                   </label>
                   <select
-                    {...register('subject', { required: 'Le sujet est requis' })}
+                    {...register('subject', { required: t('contact.subjectRequired') })}
                     className={errors.subject ? 'input-field-error' : 'select-field'}
                   >
-                    <option value="">Sélectionner un sujet</option>
+                    <option value="">{t('contact.selectSubject')}</option>
                     {subjects.map((subject) => (
                       <option key={subject.value} value={subject.value}>
                         {subject.label}
@@ -258,23 +260,23 @@ const Contact = () => {
                 {/* Message */}
                 <div className="mb-6">
                   <label className="input-label">
-                    Message *
+                    {t('contact.messageLabel')}
                   </label>
                   <textarea
                     {...register('message', {
-                      required: 'Le message est requis',
-                      minLength: { value: 10, message: 'Minimum 10 caractères' },
-                      maxLength: { value: 1000, message: 'Maximum 1000 caractères' }
+                      required: t('contact.messageRequired'),
+                      minLength: { value: 10, message: t('contact.minChars10') },
+                      maxLength: { value: 1000, message: t('contact.maxChars1000') }
                     })}
                     className={errors.message ? 'input-field-error' : 'textarea-field'}
                     rows="6"
-                    placeholder="Écrivez votre message ici..."
+                    placeholder={t('contact.messagePlaceholder')}
                   />
                   {errors.message && (
                     <p className="input-error">{errors.message.message}</p>
                   )}
                   <p className="input-hint">
-                    {watch('message')?.length || 0} / 1000 caractères
+                    {watch('message')?.length || 0} / 1000 {t('contact.characters')}
                   </p>
                 </div>
 
@@ -284,11 +286,11 @@ const Contact = () => {
                   disabled={isSubmitting}
                   className="btn-primary w-full"
                 >
-                  {isSubmitting ? 'Envoi en cours...' : 'Envoyer le message'}
+                  {isSubmitting ? t('contact.sending') : t('contact.sendBtn')}
                 </button>
 
                 <p className="text-sm text-gray-500 text-center mt-4">
-                  Nous répondons généralement sous 2 heures pendant nos horaires d'ouverture
+                  {t('contact.responseTime')}
                 </p>
               </form>
             </div>
@@ -300,7 +302,7 @@ const Contact = () => {
       <section className="py-12 px-4 bg-white">
         <div className="container-custom">
           <h2 className="text-3xl font-bold text-primary mb-8 text-center">
-            Comment nous trouver
+            {t('contact.findUs')}
           </h2>
           <div className="max-w-4xl mx-auto rounded-xl overflow-hidden shadow-lg">
             <iframe
@@ -311,7 +313,7 @@ const Contact = () => {
               allowFullScreen=""
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Localisation du restaurant"
+              title={t('contact.findUs')}
             />
           </div>
         </div>

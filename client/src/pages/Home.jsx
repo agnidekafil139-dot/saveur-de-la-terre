@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { FaStar, FaUtensils, FaUsers, FaParking } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 import MenuCard from '../components/MenuCard';
 import ReviewCard from '../components/ReviewCard';
 import SkeletonCard from '../components/SkeletonCard';
@@ -10,6 +11,7 @@ import { useRestaurant } from '../context/useRestaurant';
 const Home = () => {
   const { favoriteItems, reviews, reviewStats, loading, error, refreshData } = useRestaurant();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen">
@@ -18,33 +20,31 @@ const Home = () => {
         className="relative h-screen bg-cover bg-center"
         style={{ 
           backgroundImage: "url('/images/hero/home-hero.jpeg')",
-          backgroundColor: '#2D5016' // Fallback color
+          backgroundColor: '#2D5016'
         }}
       >
-        {/* Overlay sombre */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40"></div>
         
-        {/* Contenu */}
         <div className="relative z-10 h-full flex items-center justify-center text-center text-white px-4">
           <div className="max-w-4xl animate-fadeIn">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-poppins font-bold mb-6">
-              Vraie cuisine familiale au cœur de Cruzeiro do Oeste
+              {t('home.heroTitle')}
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-gray-100">
-              Saveurs traditionnelles · Ambiance familiale · Réservation facile
+              {t('home.heroSubtitle')}
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button 
                 onClick={() => navigate('/reserver')}
                 className="btn-accent btn-lg"
               >
-                Réserver une table
+                {t('home.reserveTable')}
               </button>
               <button 
                 onClick={() => navigate('/menu')}
                 className="btn-secondary btn-lg"
               >
-                Voir le menu
+                {t('home.viewMenu')}
               </button>
             </div>
           </div>
@@ -55,23 +55,20 @@ const Home = () => {
       <section className="py-16 px-4 bg-white">
         <div className="container-custom">
           <h2 className="section-title">
-            Le goût que vous connaissez, l'attention que vous méritez
+            {t('home.welcomeTitle')}
           </h2>
           <p className="text-lg text-gray-700 text-center max-w-3xl mx-auto mb-12">
-            Depuis plus de 5 ans, Saveur de la Terre est le point de rencontre des familles 
-            de Cruzeiro do Oeste. Ici vous trouvez cette bonne cuisine, faite avec soin, 
-            qui rappelle le déjeuner du dimanche chez mamie.
+            {t('home.welcomeText')}
           </p>
 
-          {/* 3 Points Clés */}
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center card">
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaUtensils className="text-3xl text-primary" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-primary">Cuisine Familiale</h3>
+              <h3 className="text-xl font-bold mb-3 text-primary">{t('home.familyCuisine')}</h3>
               <p className="text-gray-600">
-                Faite minute, tous les jours, avec ingrédients frais
+                {t('home.familyCuisineDesc')}
               </p>
             </div>
 
@@ -79,9 +76,9 @@ const Home = () => {
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaUsers className="text-3xl text-primary" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-primary">Ambiance Familiale</h3>
+              <h3 className="text-xl font-bold mb-3 text-primary">{t('home.familyAmbiance')}</h3>
               <p className="text-gray-600">
-                Espace cosy où toute la famille se sent chez soi
+                {t('home.familyAmbianceDesc')}
               </p>
             </div>
 
@@ -89,9 +86,9 @@ const Home = () => {
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaParking className="text-3xl text-primary" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-primary">Parking Privé</h3>
+              <h3 className="text-xl font-bold mb-3 text-primary">{t('home.privateParking')}</h3>
               <p className="text-gray-600">
-                Places sécurisées, accès facile au centre-ville
+                {t('home.privateParkingDesc')}
               </p>
             </div>
           </div>
@@ -101,18 +98,16 @@ const Home = () => {
       {/* PLATS FAVORIS */}
       <section className="py-16 px-4 bg-gray-50">
         <div className="container-custom">
-          <h2 className="section-title">Plats qui font le succès</h2>
+          <h2 className="section-title">{t('home.favoriteDishes')}</h2>
           <p className="text-center text-gray-600 mb-12 text-lg">
-            Nos spécialités préférées des clients
+            {t('home.favoriteSubtitle')}
           </p>
 
-          {/* Erreur API */}
           {error && (
             <div className="mb-8">
               <ErrorMessage message={error} onRetry={refreshData} />
             </div>
           )}
-          {/* GESTION ÉTATS VIDES/LOADING */}
           {loading ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[...Array(3)].map((_, i) => <SkeletonCard key={i} />)}
@@ -125,16 +120,16 @@ const Home = () => {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-500 mb-4">Aucun plat favori pour le moment</p>
+              <p className="text-gray-500 mb-4">{t('home.noFavorites')}</p>
               <Link to="/menu" className="btn-primary">
-                Voir tout le menu
+                {t('home.viewAllMenu')}
               </Link>
             </div>
           )}
 
           <div className="text-center mt-12">
             <Link to="/menu" className="btn-primary">
-              Voir le menu complet
+              {t('home.viewFullMenu')}
             </Link>
           </div>
         </div>
@@ -143,9 +138,8 @@ const Home = () => {
       {/* AVIS CLIENTS */}
       <section className="py-16 px-4 bg-white">
         <div className="container-custom">
-          <h2 className="section-title">Ce qu'on dit de nous</h2>
+          <h2 className="section-title">{t('home.reviewsTitle')}</h2>
           
-          {/* Stats */}
           {loading && !reviewStats ? (
             <div className="text-center mb-12 animate-pulse">
               <div className="h-8 bg-gray-200 rounded w-24 mx-auto mb-2" />
@@ -171,12 +165,11 @@ const Home = () => {
                 </span>
               </div>
               <p className="text-gray-600">
-                basé sur <span className="font-semibold">{reviewStats.totalReviews || 0}</span> avis
+                {t('home.basedOn')} <span className="font-semibold">{reviewStats.totalReviews || 0}</span> {t('home.reviewsCount')}
               </p>
             </div>
           )}
 
-          {/* Avis */}
           {loading ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
               {[...Array(3)].map((_, i) => <SkeletonReview key={i} />)}
@@ -189,16 +182,16 @@ const Home = () => {
             </div>
           ) : (
             <div className="text-center py-12 mb-12">
-              <p className="text-gray-500 mb-4">Aucun avis pour le moment</p>
+              <p className="text-gray-500 mb-4">{t('home.noReviews')}</p>
               <Link to="/avis" className="btn-primary">
-                Soyez le premier à laisser un avis
+                {t('home.firstReview')}
               </Link>
             </div>
           )}
 
           <div className="text-center">
             <Link to="/avis" className="btn-secondary">
-              Lire tous les avis
+              {t('home.readAllReviews')}
             </Link>
           </div>
         </div>
@@ -208,18 +201,17 @@ const Home = () => {
       <section className="py-16 px-4 bg-primary text-white">
         <div className="container-custom text-center">
           <h2 className="text-4xl font-poppins font-bold mb-6">
-            Prêt à vivre l'expérience ?
+            {t('home.ctaTitle')}
           </h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Réservez votre table dès maintenant et découvrez pourquoi nous sommes 
-            le restaurant préféré des familles
+            {t('home.ctaText')}
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link to="/reserver" className="btn-accent btn-lg">
-              Réserver maintenant
+              {t('home.reserveNow')}
             </Link>
             <Link to="/contact" className="btn-secondary btn-lg">
-              Nous contacter
+              {t('home.contactUs')}
             </Link>
           </div>
         </div>

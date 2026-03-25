@@ -1,6 +1,9 @@
 import { FaHistory, FaTrophy, FaHeart, FaLeaf, FaUtensils, FaUsers, FaStar } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 const OurStory = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen">
       {/* HERO */}
@@ -15,10 +18,10 @@ const OurStory = () => {
         <div className="relative z-10 h-full flex items-center justify-center text-white text-center px-4">
           <div className="animate-fadeIn">
             <h1 className="text-5xl md:text-6xl font-poppins font-bold mb-4">
-              Notre Histoire
+              {t('ourStory.title')}
             </h1>
             <p className="text-xl md:text-2xl">
-              Une passion familiale devenue tradition
+              {t('ourStory.subtitle')}
             </p>
           </div>
         </div>
@@ -28,31 +31,26 @@ const OurStory = () => {
       <section className="py-16 px-4 bg-white">
         <div className="container-custom max-w-4xl">
           <h2 className="text-3xl font-bold text-primary mb-8 text-center">
-            Comment tout a commencé
+            {t('ourStory.howItStarted')}
           </h2>
           
           <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
             <p>
-              L'histoire de <span className="font-semibold text-primary">Saveur de la Terre</span> commence 
-              bien avant 2019. Pendant plus de 25 ans, Dona Maria Helena Silva a préparé des déjeuners 
-              dans sa propre maison pour amis et famille.
+              {t('ourStory.story1Text')}
             </p>
             
             <p>
-              Un jour, son fils Carlos lui a suggéré : <em className="text-primary">"Maman, pourquoi ne pas 
-              partager ton talent avec toute la ville ?"</em> L'idée a fait son chemin, et en 2019, 
-              Saveur de la Terre a ouvert ses portes.
+              {t('ourStory.story2Text')}
             </p>
             
             <p>
-              Ce qui a commencé comme un petit restaurant avec seulement 8 tables s'est transformé 
-              en <span className="font-semibold">lieu de rencontre préféré des familles de Cruzeiro do Oeste</span>.
+              {t('ourStory.story3Text')}
             </p>
           </div>
 
           <div className="mt-12 p-8 bg-primary/5 rounded-xl border-l-4 border-primary">
             <p className="text-xl font-poppins font-semibold text-primary italic text-center">
-              "De la vraie cuisine, faite avec amour, pour que vous vous sentiez comme à la maison"
+              "{t('ourStory.mainQuote')}"
             </p>
           </div>
         </div>
@@ -61,7 +59,7 @@ const OurStory = () => {
       {/* PARCOURS */}
       <section className="py-16 px-4 bg-gray-50">
         <div className="container-custom">
-          <h2 className="section-title">Notre Parcours</h2>
+          <h2 className="section-title">{t('ourStory.journeyTitle')}</h2>
           
           <div className="max-w-4xl mx-auto">
             <div className="space-y-8">
@@ -74,9 +72,9 @@ const OurStory = () => {
                   <FaHistory className="text-white text-xl" />
                 </div>
                 <div className="flex-1 card">
-                  <h3 className="text-xl font-bold mb-2">Les Débuts</h3>
+                  <h3 className="text-xl font-bold mb-2">{t('ourStory.year2019')}</h3>
                   <p className="text-gray-600">
-                    Ouverture du restaurant avec 8 tables et un grand rêve
+                    {t('ourStory.year2019Desc')}
                   </p>
                 </div>
               </div>
@@ -90,9 +88,9 @@ const OurStory = () => {
                   <FaLeaf className="text-white text-xl" />
                 </div>
                 <div className="flex-1 card">
-                  <h3 className="text-xl font-bold mb-2">Croissance</h3>
+                  <h3 className="text-xl font-bold mb-2">{t('ourStory.year2020')}</h3>
                   <p className="text-gray-600">
-                    Agrandissement à 20 tables face au succès
+                    {t('ourStory.year2020Desc')}
                   </p>
                 </div>
               </div>
@@ -106,9 +104,9 @@ const OurStory = () => {
                   <FaTrophy className="text-white text-xl" />
                 </div>
                 <div className="flex-1 card">
-                  <h3 className="text-xl font-bold mb-2">Reconnaissance</h3>
+                  <h3 className="text-xl font-bold mb-2">{t('ourStory.year2022')}</h3>
                   <p className="text-gray-600">
-                    Prix du Meilleur Restaurant Familial de la région
+                    {t('ourStory.year2022Desc')}
                   </p>
                 </div>
               </div>
@@ -122,9 +120,9 @@ const OurStory = () => {
                   <FaStar className="text-white text-xl" />
                 </div>
                 <div className="flex-1 card">
-                  <h3 className="text-xl font-bold mb-2">Excellence</h3>
+                  <h3 className="text-xl font-bold mb-2">{t('ourStory.year2023')}</h3>
                   <p className="text-gray-600">
-                    Certificat d'Excellence TripAdvisor
+                    {t('ourStory.year2023Desc')}
                   </p>
                 </div>
               </div>
@@ -138,9 +136,9 @@ const OurStory = () => {
                   <FaHeart className="text-white text-xl" />
                 </div>
                 <div className="flex-1 card">
-                  <h3 className="text-xl font-bold mb-2">Aujourd'hui</h3>
+                  <h3 className="text-xl font-bold mb-2">{t('ourStory.year2025')}</h3>
                   <p className="text-gray-600">
-                    200+ clients satisfaits chaque jour
+                    {t('ourStory.year2025Desc')}
                   </p>
                 </div>
               </div>
@@ -152,16 +150,16 @@ const OurStory = () => {
       {/* VALEURS */}
       <section className="py-16 px-4 bg-white">
         <div className="container-custom">
-          <h2 className="section-title">Nos Valeurs</h2>
+          <h2 className="section-title">{t('ourStory.valuesTitle')}</h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="card text-center">
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaUtensils className="text-3xl text-primary" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-primary">Authenticité</h3>
+              <h3 className="text-xl font-bold mb-3 text-primary">{t('ourStory.authenticity')}</h3>
               <p className="text-gray-600">
-                Recettes traditionnelles, 0% congelé, 100% fait maison
+                {t('ourStory.authenticityDesc')}
               </p>
             </div>
 
@@ -169,9 +167,9 @@ const OurStory = () => {
               <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaUsers className="text-3xl text-secondary" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-secondary">Famille</h3>
+              <h3 className="text-xl font-bold mb-3 text-secondary">{t('ourStory.family')}</h3>
               <p className="text-gray-600">
-                Ambiance chaleureuse où tous sont les bienvenus
+                {t('ourStory.familyDesc')}
               </p>
             </div>
 
@@ -179,9 +177,9 @@ const OurStory = () => {
               <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaLeaf className="text-3xl text-accent" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-accent">Qualité</h3>
+              <h3 className="text-xl font-bold mb-3 text-accent">{t('ourStory.quality')}</h3>
               <p className="text-gray-600">
-                Ingrédients frais et locaux sélectionnés quotidiennement
+                {t('ourStory.qualityDesc')}
               </p>
             </div>
 
@@ -189,9 +187,9 @@ const OurStory = () => {
               <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaHeart className="text-3xl text-success" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-success">Tradition</h3>
+              <h3 className="text-xl font-bold mb-3 text-success">{t('ourStory.tradition')}</h3>
               <p className="text-gray-600">
-                Respect des saveurs brésiliennes authentiques
+                {t('ourStory.traditionDesc')}
               </p>
             </div>
           </div>
@@ -201,13 +199,13 @@ const OurStory = () => {
       {/* PRIX */}
       <section className="py-16 px-4 bg-gray-50">
         <div className="container-custom">
-          <h2 className="section-title">Reconnaissances & Prix</h2>
+          <h2 className="section-title">{t('ourStory.awardsTitle')}</h2>
           
           <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
             <div className="card text-center">
               <FaTrophy className="text-5xl text-accent mx-auto mb-4" />
-              <h3 className="text-xl font-bold mb-2">Meilleur Restaurant Familial 2023</h3>
-              <p className="text-gray-600">Association des Restaurateurs</p>
+              <h3 className="text-xl font-bold mb-2">{t('ourStory.bestRestaurant')}</h3>
+              <p className="text-gray-600">{t('ourStory.restaurantAssoc')}</p>
             </div>
 
             <div className="card text-center">
@@ -216,8 +214,8 @@ const OurStory = () => {
                   <FaStar key={i} className="text-3xl text-accent" />
                 ))}
               </div>
-              <h3 className="text-xl font-bold mb-2">4.8/5 étoiles</h3>
-              <p className="text-gray-600">Google Reviews (200+ avis)</p>
+              <h3 className="text-xl font-bold mb-2">{t('ourStory.stars')}</h3>
+              <p className="text-gray-600">{t('ourStory.googleReviews')}</p>
             </div>
           </div>
         </div>

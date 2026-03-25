@@ -1,19 +1,26 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from './LanguageSwitcher';
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { t } = useTranslation();
+
   const navLinks = [
-    { path: '/', label: 'Accueil' },
-    { path: '/notre-histoire', label: 'Notre Histoire' },
-    { path: '/menu', label: 'Menu' },
-    { path: '/galerie', label: 'Galerie' },
-    { path: '/avis', label: 'Avis' },
-    { path: '/contact', label: 'Contact' },
+    { path: '/', label: t('nav.home') },
+    { path: '/notre-histoire', label: t('nav.ourStory') },
+    { path: '/menu', label: t('nav.menu') },
+    { path: '/galerie', label: t('nav.gallery') },
+    { path: '/avis', label: t('nav.reviews') },
+    { path: '/contact', label: t('nav.contact') },
   ];
+
   const isActive = (path) => location.pathname === path;
   const toggleMenu = () => setIsOpen(!isOpen);
+
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="container-custom">
@@ -24,6 +31,7 @@ const Navbar = () => {
               Saveur de la Terre
             </span>
           </Link>
+
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
@@ -39,10 +47,12 @@ const Navbar = () => {
                 {link.label}
               </Link>
             ))}
+            <LanguageSwitcher />
             <Link to="/reserver" className="btn-primary">
-              Réserver
+              {t('nav.reserve')}
             </Link>
           </div>
+
           {/* Mobile Menu Button */}
           <button
             onClick={toggleMenu}
@@ -52,6 +62,7 @@ const Navbar = () => {
             {isOpen ? <FaTimes /> : <FaBars />}
           </button>
         </div>
+
         {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden pb-4 animate-fadeIn">
@@ -69,12 +80,15 @@ const Navbar = () => {
                 {link.label}
               </Link>
             ))}
+            <div className="py-2">
+              <LanguageSwitcher />
+            </div>
             <Link
               to="/reserver"
               onClick={() => setIsOpen(false)}
               className="block mt-2 btn-primary text-center"
             >
-              Réserver
+              {t('nav.reserve')}
             </Link>
           </div>
         )}
@@ -82,4 +96,5 @@ const Navbar = () => {
     </nav>
   );
 };
+
 export default Navbar;

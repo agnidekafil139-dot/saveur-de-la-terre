@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { FaSearch, FaTimes } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 import MenuCard from '../components/MenuCard';
 import SkeletonCard from '../components/SkeletonCard';
 import ErrorMessage from '../components/ErrorMessage';
@@ -11,14 +12,15 @@ const Menu = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
+  const { t } = useTranslation();
 
   const categories = [
-    { id: 'all', label: 'Tous les plats', icon: '🍽️' },
-    { id: 'viandes', label: 'Viandes', icon: '🥩' },
-    { id: 'volailles', label: 'Volailles', icon: '🍗' },
-    { id: 'poissons', label: 'Poissons', icon: '🐟' },
-    { id: 'pâtes', label: 'Pâtes', icon: '🍝' },
-    { id: 'desserts', label: 'Desserts', icon: '🍰' },
+    { id: 'all', label: t('menu.all'), icon: '🍽️' },
+    { id: 'viandes', label: t('menu.viandes'), icon: '🥩' },
+    { id: 'volailles', label: t('menu.volailles'), icon: '🍗' },
+    { id: 'poissons', label: t('menu.poissons'), icon: '🐟' },
+    { id: 'pâtes', label: t('menu.pates'), icon: '🍝' },
+    { id: 'desserts', label: t('menu.desserts'), icon: '🍰' },
   ];
 
   useEffect(() => {
@@ -30,12 +32,10 @@ const Menu = () => {
   const filteredItems = useMemo(() => {
     let filtered = menuItems;
 
-    // Filter by category
     if (selectedCategory !== 'all') {
       filtered = filtered.filter(item => item.category === selectedCategory);
     }
 
-    // Filter by search query
     if (debouncedSearchQuery.trim()) {
       const query = debouncedSearchQuery.toLowerCase();
       filtered = filtered.filter(item =>
@@ -57,13 +57,13 @@ const Menu = () => {
       <section className="bg-primary text-white py-16 px-4">
         <div className="container-custom text-center">
           <h1 className="text-4xl md:text-5xl font-poppins font-bold mb-4">
-            Notre Menu
+            {t('menu.title')}
           </h1>
           <p className="text-xl md:text-2xl mb-2">
-            Tout préparé frais tous les jours
+            {t('menu.subtitle')}
           </p>
           <p className="text-gray-200">
-            Découvrez nos spécialités de cuisine familiale brésilienne
+            {t('menu.description')}
           </p>
         </div>
       </section>
@@ -71,7 +71,6 @@ const Menu = () => {
       {/* RECHERCHE & FILTRES */}
       <section className="py-8 px-4 bg-white sticky top-20 z-40 shadow-md">
         <div className="container-custom">
-          {/* Search Bar */}
           <div className="max-w-2xl mx-auto mb-6">
             <div className="relative">
               <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -79,15 +78,15 @@ const Menu = () => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Rechercher un plat..."
+                placeholder={t('menu.search')}
                 className="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                aria-label="Rechercher un plat"
+                aria-label={t('menu.search')}
               />
               {searchQuery && (
                 <button
                   onClick={clearSearch}
                   className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  aria-label="Effacer la recherche"
+                  aria-label={t('menu.clearSearch')}
                 >
                   <FaTimes />
                 </button>
@@ -95,7 +94,6 @@ const Menu = () => {
             </div>
           </div>
 
-          {/* Category Filters */}
           <div className="flex flex-wrap justify-center gap-3">
             {categories.map((category) => (
               <button
@@ -106,7 +104,7 @@ const Menu = () => {
                     ? 'bg-primary text-white shadow-lg scale-105'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
-                aria-label={`Filtrer par ${category.label}`}
+                aria-label={`${t('menu.filterBy')} ${category.label}`}
               >
                 <span className="mr-2">{category.icon}</span>
                 {category.label}
@@ -124,18 +122,17 @@ const Menu = () => {
               <ErrorMessage message={error} onRetry={refreshData} />
             </div>
           )}
-          {/* Counter */}
           <div className="text-center mb-8">
             <p className="text-lg text-gray-600">
               {loading ? (
-                <span className="animate-pulse">Chargement...</span>
+                <span className="animate-pulse">{t('menu.loading')}</span>
               ) : (
                 <>
                   <span className="font-bold text-primary">{filteredItems.length}</span>{' '}
-                  {filteredItems.length === 1 ? 'plat trouvé' : 'plats trouvés'}
+                  {filteredItems.length === 1 ? t('menu.dishFound') : t('menu.dishesFound')}
                   {selectedCategory !== 'all' && (
                     <span>
-                      {' '}dans <span className="font-semibold">
+                      {' '}{t('menu.inCategory')} <span className="font-semibold">
                         {categories.find(c => c.id === selectedCategory)?.label}
                       </span>
                     </span>
@@ -145,7 +142,6 @@ const Menu = () => {
             </p>
           </div>
 
-          {/* Plate Grid */}
           {loading ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[...Array(6)].map((_, i) => <SkeletonCard key={i} />)}
@@ -159,10 +155,10 @@ const Menu = () => {
           ) : (
             <div className="text-center py-16">
               <p className="text-xl text-gray-500 mb-4">
-                Aucun plat trouvé
+                {t('menu.noDish')}
               </p>
               <p className="text-gray-400 mb-8">
-                Essayez de modifier vos critères de recherche
+                {t('menu.tryModify')}
               </p>
               <button
                 onClick={() => {
@@ -170,9 +166,9 @@ const Menu = () => {
                   setSearchQuery('');
                 }}
                 className="btn-primary"
-                aria-label="Réinitialiser les filtres"
+                aria-label={t('menu.resetFilters')}
               >
-                Réinitialiser les filtres
+                {t('menu.resetFilters')}
               </button>
             </div>
           )}

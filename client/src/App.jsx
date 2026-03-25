@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { RestaurantProvider } from './context/RestaurantContext';
 import { HelmetProvider } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 
 // Layouts
 import Navbar from './components/Navbar';
@@ -17,22 +18,25 @@ import Reviews from './pages/Reviews';
 import Contact from './pages/Contact';
 
 // 404
-const NotFound = () => (
-  <div className="min-h-screen flex items-center justify-center bg-gray-50">
-    <div className="text-center px-4">
-      <h1 className="text-6xl font-bold text-primary mb-4">404</h1>
-      <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-        Page non trouvée
-      </h2>
-      <p className="text-gray-600 mb-8">
-        La page que vous cherchez n'existe pas
-      </p>
-      <a href="/" className="btn-primary">
-        Retour à l'accueil
-      </a>
+const NotFound = () => {
+  const { t } = useTranslation();
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="text-center px-4">
+        <h1 className="text-6xl font-bold text-primary mb-4">404</h1>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+          {t('notFound.title')}
+        </h2>
+        <p className="text-gray-600 mb-8">
+          {t('notFound.text')}
+        </p>
+        <a href="/" className="btn-primary">
+          {t('notFound.backHome')}
+        </a>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 function App() {
   return (

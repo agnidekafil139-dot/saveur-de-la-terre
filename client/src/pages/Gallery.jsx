@@ -1,33 +1,32 @@
 import { useState } from 'react';
 import { FaTimes, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [lightboxImage, setLightboxImage] = useState(null);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  const { t } = useTranslation();
 
   const categories = [
-    { id: 'all', label: 'Toutes' },
-    { id: 'ambiance', label: 'Ambiance' },
-    { id: 'plats', label: 'Plats' },
-    { id: 'equipe', label: 'Équipe' },
-    { id: 'evenements', label: 'Événements' },
+    { id: 'all', label: t('gallery.all') },
+    { id: 'ambiance', label: t('gallery.ambiance') },
+    { id: 'plats', label: t('gallery.dishes') },
+    { id: 'equipe', label: t('gallery.team') },
+    { id: 'evenements', label: t('gallery.events') },
   ];
 
-const images = [
-  { id: 1, src: '/images/restaurant/salle-principale.jpeg', category: 'ambiance', alt: 'Salle principale' },
-  { id: 2, src: '/images/restaurant/facade.jpeg', category: 'ambiance', alt: 'Façade du restaurant' },
-  
-  { id: 3, src: '/images/menu/viandes/costela.jpeg', category: 'plats', alt: 'Costela' },
-  { id: 4, src: '/images/menu/viandes/escalope-parmigiana.jpeg', category: 'plats', alt: 'Escalope Parmigiana' },
-  { id: 5, src: '/images/menu/volailles/frango-caipara.jpeg', category: 'plats', alt: 'Frango Caipara' },
-  { id: 6, src: '/images/menu/desserts/pudim.jpeg', category: 'plats', alt: 'Pudim' },
+  const images = [
+    { id: 1, src: '/images/restaurant/salle-principale.jpeg', category: 'ambiance', alt: 'Salle principale' },
+    { id: 2, src: '/images/restaurant/facade.jpeg', category: 'ambiance', alt: 'Façade du restaurant' },
+    { id: 3, src: '/images/menu/viandes/costela.jpeg', category: 'plats', alt: 'Costela' },
+    { id: 4, src: '/images/menu/viandes/escalope-parmigiana.jpeg', category: 'plats', alt: 'Escalope Parmigiana' },
+    { id: 5, src: '/images/menu/volailles/frango-caipara.jpeg', category: 'plats', alt: 'Frango Caipara' },
+    { id: 6, src: '/images/menu/desserts/pudim.jpeg', category: 'plats', alt: 'Pudim' },
+    { id: 7, src: '/images/team/dona-maria.jpeg', category: 'equipe', alt: 'Dona Maria - Chef' },
+    { id: 8, src: '/images/restaurant/salle-principale.jpeg', category: 'evenements', alt: 'Anniversaire' },
+  ];
 
-  { id: 7, src: '/images/team/dona-maria.jpeg', category: 'equipe', alt: 'Dona Maria - Chef' },
-
-  { id: 8, src: '/images/restaurant/salle-principale.jpeg', category: 'evenements', alt: 'Anniversaire' },
-
-];
   const filteredImages = selectedCategory === 'all'
     ? images
     : images.filter(img => img.category === selectedCategory);
@@ -59,10 +58,10 @@ const images = [
       <section className="bg-primary text-white py-16 px-4">
         <div className="container-custom text-center">
           <h1 className="text-4xl md:text-5xl font-poppins font-bold mb-4">
-            Galerie Photos
+            {t('gallery.title')}
           </h1>
           <p className="text-xl">
-            Découvrez l'ambiance, nos plats et notre équipe en images
+            {t('gallery.subtitle')}
           </p>
         </div>
       </section>
@@ -106,7 +105,7 @@ const images = [
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
                     <p className="text-white font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      Voir en grand
+                      {t('gallery.viewLarge')}
                     </p>
                   </div>
                 </div>
@@ -115,7 +114,7 @@ const images = [
           ) : (
             <div className="text-center py-16">
               <p className="text-xl text-gray-500">
-                Aucune image dans cette catégorie
+                {t('gallery.noImages')}
               </p>
             </div>
           )}
