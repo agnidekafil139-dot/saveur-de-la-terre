@@ -1,17 +1,36 @@
-
-import axios from 'axios';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+import supabase from './supabaseClient';
 
 const contactAPI = {
   send: async (contactData) => {
-    const response = await axios.post(`${API_URL}/contact`, contactData);
-    return response.data.data;
+    const { data, error } = await supabase
+      .from('contacts')
+      .insert({
+        name: contactData.name,
+        email: contactData.email,
+        phone: contactData.phone || null,
+        subject: contactData.subject,
+        message: contactData.message
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
   },
 
-  getAll: async () => {
-    const response = await axios.get(`${API_URL}/contact`);
-    return response.data.data;
+  getAll: async (filters = {}) => {
+    let query = supabase
+      .from('contacts')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (filters.status) {
+      query = query.eq('status', filters.status);
+    }
+
+    const { data, error } = await query;
+    if (error) throw error;
+    return data;
   }
 };
 

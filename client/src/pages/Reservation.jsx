@@ -17,11 +17,11 @@ const Reservation = () => {
   ];
 
   const occasions = [
-    { value: 'none', label: t('reservation.occasionNone') },
-    { value: 'birthday', label: t('reservation.occasionBirthday') },
+    { value: 'aucune', label: t('reservation.occasionNone') },
+    { value: 'anniversaire', label: t('reservation.occasionBirthday') },
     { value: 'celebration', label: t('reservation.occasionCelebration') },
-    { value: 'first_visit', label: t('reservation.occasionFirstVisit') },
-    { value: 'other', label: t('reservation.occasionOther') },
+    { value: 'premiere_visite', label: t('reservation.occasionFirstVisit') },
+    { value: 'autre', label: t('reservation.occasionOther') },
   ];
 
   const onSubmit = async (data) => {
@@ -36,8 +36,8 @@ const Reservation = () => {
         date: data.date,
         time: data.time,
         numberOfGuests: data.numberOfGuests,
-        specialRequest: data.specialRequest,
-        occasion: data.occasion
+        specialRequest: data.specialRequest || '',
+        occasion: data.occasion || 'aucune'
       };
 
       await reservationAPI.create(payload);
@@ -48,7 +48,7 @@ const Reservation = () => {
         setSubmitSuccess(false);
       }, 5000);
     } catch (error) {
-      setSubmitError(error.response?.data?.message || t('common.error'));
+      setSubmitError(error.message || t('common.error'));
     } finally {
       setIsSubmitting(false);
     }
@@ -239,7 +239,7 @@ const Reservation = () => {
                 {t('reservation.occasion')}
               </label>
               <select
-                {...register('specialOccasion')}
+                {...register('occasion')}
                 className="select-field"
               >
                 {occasions.map((occasion) => (
@@ -256,15 +256,15 @@ const Reservation = () => {
                 {t('reservation.specialRequests')}
               </label>
               <textarea
-                {...register('specialRequests', {
+                {...register('specialRequest', {
                   maxLength: { value: 500, message: t('reservation.maxChars500') }
                 })}
                 className="textarea-field"
                 rows="4"
                 placeholder={t('reservation.specialRequestsPlaceholder')}
               />
-              {errors.specialRequests && (
-                <p className="input-error">{errors.specialRequests.message}</p>
+              {errors.specialRequest && (
+                <p className="input-error">{errors.specialRequest.message}</p>
               )}
             </div>
 

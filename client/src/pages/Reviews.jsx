@@ -32,7 +32,7 @@ const Reviews = () => {
         setSubmitSuccess(false);
       }, 5000);
     } catch (err) {
-      alert(err.response?.data?.message || t('common.error'));
+      alert(err.message || t('common.error'));
     } finally {
       setIsSubmitting(false);
     }
@@ -286,7 +286,7 @@ const Reviews = () => {
           ) : reviews && reviews.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {reviews.map((review) => (
-                <ReviewCard key={review._id} review={review} />
+                <ReviewCard key={review.id} review={review} />
               ))}
             </div>
           ) : (

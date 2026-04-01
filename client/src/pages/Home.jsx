@@ -115,7 +115,7 @@ const Home = () => {
           ) : favoriteItems && favoriteItems.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {favoriteItems.map((item) => (
-                <MenuCard key={item._id} item={item} />
+                <MenuCard key={item.id} item={item} />
               ))}
             </div>
           ) : (
@@ -177,7 +177,7 @@ const Home = () => {
           ) : reviews && reviews.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
               {reviews.slice(0, 3).map((review) => (
-                <ReviewCard key={review._id} review={review} />
+                <ReviewCard key={review.id} review={review} />
               ))}
             </div>
           ) : (

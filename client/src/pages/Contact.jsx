@@ -13,11 +13,11 @@ const Contact = () => {
   const subjects = [
     { value: 'reservation', label: t('contact.subjectReservation') },
     { value: 'menu', label: t('contact.subjectMenu') },
-    { value: 'event', label: t('contact.subjectEvent') },
+    { value: 'evenement', label: t('contact.subjectEvent') },
     { value: 'suggestion', label: t('contact.subjectSuggestion') },
-    { value: 'complaint', label: t('contact.subjectComplaint') },
-    { value: 'career', label: t('contact.subjectCareer') },
-    { value: 'other', label: t('contact.subjectOther') },
+    { value: 'reclamation', label: t('contact.subjectComplaint') },
+    { value: 'carriere', label: t('contact.subjectCareer') },
+    { value: 'autre', label: t('contact.subjectOther') },
   ];
 
   const onSubmit = async (data) => {
@@ -32,7 +32,7 @@ const Contact = () => {
         setSubmitSuccess(false);
       }, 5000);
     } catch (error) {
-      alert(error.response?.data?.message || t('common.error'));
+      alert(error.message || t('common.error'));
     } finally {
       setIsSubmitting(false);
     }

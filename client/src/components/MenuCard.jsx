@@ -10,7 +10,7 @@ const MenuCard = ({ item }) => {
           className="w-full h-48 object-cover group-hover:scale-110 transition duration-300"
           loading="lazy"
         />
-        {item.isFavorite && (
+        {item.is_favorite && (
           <div className="absolute top-2 right-2 bg-accent text-white px-3 py-1 
                         rounded-full text-xs font-semibold flex items-center gap-1">
             <FaStar /> Favoris
@@ -28,10 +28,10 @@ const MenuCard = ({ item }) => {
       <div>
         <h3 className="text-xl font-poppins font-bold text-primary mb-2 flex items-center gap-2">
           {item.name}
-          {item.isVegetarian && (
+          {item.is_vegetarian && (
             <FaLeaf className="text-green-500 text-sm" title="Végétarien" />
           )}
-          {item.isSpicy && (
+          {item.is_spicy && (
             <FaFire className="text-red-500 text-sm" title="Épicé" />
           )}
         </h3>
@@ -48,16 +48,16 @@ const MenuCard = ({ item }) => {
             <span className="text-2xl font-bold text-secondary">
               R$ {item.price.toFixed(2)}
             </span>
-            {item.priceFor2 && (
+            {item.price_for_2 && (
               <span className="text-sm text-gray-500 ml-2">
-                / R$ {item.priceFor2.toFixed(2)} (2p)
+                / R$ {item.price_for_2.toFixed(2)} (2p)
               </span>
             )}
           </div>
         </div>
-        {item.preparationTime && (
+        {item.preparation_time && (
           <p className="text-xs text-gray-500 mt-2">
-            Temps de préparation : {item.preparationTime} min
+            Temps de préparation : {item.preparation_time} min
           </p>
         )}
       </div>

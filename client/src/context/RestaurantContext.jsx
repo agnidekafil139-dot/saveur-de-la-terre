@@ -105,3 +105,5 @@ export const RestaurantProvider = ({ children }) => {
 RestaurantProvider.propTypes = {
   children: PropTypes.node.isRequired
 };
+
+export default RestaurantProvider;
