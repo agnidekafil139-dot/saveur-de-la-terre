@@ -151,18 +151,62 @@ GRANT INSERT ON contacts TO anon, authenticated;
 
 -- ============ SEED DATA ============
 
--- Menu Items
-INSERT INTO menu_items (name, category, description, price, price_for_2, image, allergens, is_favorite, available, preparation_time) VALUES
-  ('Escalope Parmigiana', 'viandes', 'Escalope panée, sauce tomate maison et fromage gratiné, frites et salade', 42.00, 78.00, '/images/menu/viandes/escalope-parmigiana.jpeg', ARRAY['gluten', 'lait', 'œuf'], true, true, 25),
-  ('Côtes de Bœuf Confites', 'viandes', 'Côtes de bœuf confites 4h, riz, polenta frite et vinaigrette', 48.00, 88.00, '/images/menu/viandes/costela.jpeg', ARRAY[]::TEXT[], true, true, 35),
-  ('Picanha sur Plancha', 'viandes', '300g picanha grillée, riz, haricots tropeiro, farofa', 58.00, NULL, '/images/placeholder.jpeg', ARRAY[]::TEXT[], false, true, 20),
-  ('Poulet Fermier', 'volailles', 'Poulet effiloché sauce maison, riz, pommes paille', 39.00, 72.00, '/images/menu/volailles/frango-caipira.jpeg', ARRAY['lait'], true, true, 25),
-  ('Poulet Parmigiana', 'volailles', 'Poulet pané sauce tomate et fromage fondu', 38.00, NULL, '/images/placeholder.jpeg', ARRAY['gluten', 'lait', 'œuf'], false, true, 25);
+-- ─── ENTRÉES ───
+INSERT INTO menu_items (name, category, description, price, price_for_2, image, allergens, is_vegetarian, is_spicy, is_favorite, available, preparation_time) VALUES
+  ('Pastéis de Queijo', 'entrées', 'Pastéis croustillants farcis au fromage de Minas, servis avec salade de roquette et sauce citron vert', 18.00, 32.00, '/images/menu/entrees/pasteis-de-queijo.png', ARRAY['gluten', 'lait'], true, false, true, true, 15),
+  ('Coxinha de Frango', 'entrées', 'Croquettes de poulet effiloché en forme de goutte, panées et frites, sauce chimichurri', 16.00, 28.00, '/images/menu/entrees/coxinha.png', ARRAY['gluten', 'œuf'], false, false, true, true, 15),
+  ('Salade Tropicale', 'entrées', 'Mélange de feuilles fraîches, mangue, avocat, cœur de palmier et vinaigrette passion', 14.00, NULL, '/images/placeholder.jpeg', ARRAY[]::TEXT[], true, false, false, true, 10),
+  ('Bolinho de Bacalhau', 'entrées', 'Beignets de morue traditionnels, croustillants à l''extérieur et fondants à l''intérieur', 19.00, 34.00, '/images/placeholder.jpeg', ARRAY['gluten', 'poisson', 'œuf'], false, false, false, true, 20);
 
--- Reviews
+-- ─── VIANDES ───
+INSERT INTO menu_items (name, category, description, price, price_for_2, image, allergens, is_vegetarian, is_spicy, is_favorite, available, preparation_time) VALUES
+  ('Escalope Parmigiana', 'viandes', 'Escalope panée, sauce tomate maison et fromage gratiné, frites et salade', 42.00, 78.00, '/images/menu/viandes/escalope-parmigiana.jpeg', ARRAY['gluten', 'lait', 'œuf'], false, false, true, true, 25),
+  ('Côtes de Bœuf Confites', 'viandes', 'Côtes de bœuf confites 4h, riz, polenta frite et vinaigrette', 48.00, 88.00, '/images/menu/viandes/costela.jpeg', ARRAY[]::TEXT[], false, false, true, true, 35),
+  ('Picanha sur Plancha', 'viandes', '300g picanha grillée, riz, haricots tropeiro, farofa', 58.00, NULL, '/images/placeholder.jpeg', ARRAY[]::TEXT[], false, false, false, true, 20),
+  ('Feijoada Complète', 'viandes', 'Le plat national brésilien : haricots noirs mijotés avec viandes variées, riz, farofa, chou vert et orange', 44.00, 80.00, '/images/placeholder.jpeg', ARRAY[]::TEXT[], false, false, true, true, 40);
+
+-- ─── VOLAILLES ───
+INSERT INTO menu_items (name, category, description, price, price_for_2, image, allergens, is_vegetarian, is_spicy, is_favorite, available, preparation_time) VALUES
+  ('Poulet Fermier', 'volailles', 'Poulet effiloché sauce maison, riz, pommes paille', 39.00, 72.00, '/images/menu/volailles/frango-caipira.jpeg', ARRAY['lait'], false, false, true, true, 25),
+  ('Poulet Parmigiana', 'volailles', 'Poulet pané sauce tomate et fromage fondu, frites et salade', 38.00, NULL, '/images/placeholder.jpeg', ARRAY['gluten', 'lait', 'œuf'], false, false, false, true, 25);
+
+-- ─── POISSONS ───
+INSERT INTO menu_items (name, category, description, price, price_for_2, image, allergens, is_vegetarian, is_spicy, is_favorite, available, preparation_time) VALUES
+  ('Saumon Grillé', 'poissons', 'Filet de saumon grillé, salsa de mangue, riz pilaf et légumes vapeur', 46.00, 84.00, '/images/menu/poissons/saumon-grille.png', ARRAY['poisson'], false, false, true, true, 25),
+  ('Moqueca de Crevettes', 'poissons', 'Ragoût de crevettes au lait de coco, poivrons et coriandre, servi avec riz blanc', 52.00, 96.00, '/images/menu/poissons/moqueca-crevettes.png', ARRAY['crustacés', 'lait de coco'], false, true, true, true, 30),
+  ('Tilapia à la Plancha', 'poissons', 'Filet de tilapia grillé, purée de manioc, sauce vierge aux herbes', 38.00, 70.00, '/images/placeholder.jpeg', ARRAY['poisson'], false, false, false, true, 20);
+
+-- ─── PÂTES ───
+INSERT INTO menu_items (name, category, description, price, price_for_2, image, allergens, is_vegetarian, is_spicy, is_favorite, available, preparation_time) VALUES
+  ('Penne Bolognese', 'pâtes', 'Penne al dente avec sauce bolognaise maison, parmesan râpé et basilic frais', 34.00, 62.00, '/images/placeholder.jpeg', ARRAY['gluten', 'lait'], false, false, false, true, 20),
+  ('Lasagne Maison', 'pâtes', 'Lasagne gratinée aux trois fromages, bœuf mijoté et béchamel', 38.00, NULL, '/images/placeholder.jpeg', ARRAY['gluten', 'lait', 'œuf'], false, false, true, true, 30),
+  ('Spaghetti aux Fruits de Mer', 'pâtes', 'Spaghetti avec crevettes, moules et calamars, sauce tomate-safran', 44.00, 82.00, '/images/placeholder.jpeg', ARRAY['gluten', 'crustacés', 'mollusques'], false, false, false, true, 25);
+
+-- ─── DESSERTS ───
+INSERT INTO menu_items (name, category, description, price, price_for_2, image, allergens, is_vegetarian, is_spicy, is_favorite, available, preparation_time) VALUES
+  ('Pudim', 'desserts', 'Flan brésilien au caramel onctueux, la recette de Dona Maria', 14.00, NULL, '/images/menu/desserts/pudim.jpeg', ARRAY['lait', 'œuf'], true, false, true, true, 10),
+  ('Açaí Bowl', 'desserts', 'Bol d''açaí glacé avec granola, banane, fraises et noix de coco râpée', 16.00, NULL, '/images/menu/desserts/acai-bowl.png', ARRAY['fruits à coque'], true, false, true, true, 10),
+  ('Tiramisu Brésilien', 'desserts', 'Tiramisu revisité au café brésilien, mascarpone et cacao amer', 15.00, NULL, '/images/menu/desserts/tiramisu.png', ARRAY['gluten', 'lait', 'œuf'], true, false, false, true, 10),
+  ('Brigadeiro Gourmet', 'desserts', 'Assortiment de brigadeiros artisanaux : chocolat noir, pistache et noix de coco', 12.00, NULL, '/images/placeholder.jpeg', ARRAY['lait'], true, false, false, true, 5);
+
+-- ─── BOISSONS ───
+INSERT INTO menu_items (name, category, description, price, price_for_2, image, allergens, is_vegetarian, is_spicy, is_favorite, available, preparation_time) VALUES
+  ('Caipirinha Classique', 'boissons', 'Cocktail brésilien : cachaça, citron vert, sucre et glace pilée', 12.00, NULL, '/images/placeholder.jpeg', ARRAY[]::TEXT[], true, false, true, true, 5),
+  ('Jus de Fruits Frais', 'boissons', 'Jus pressé du jour : mangue, passion, goyave ou acérola', 8.00, NULL, '/images/placeholder.jpeg', ARRAY[]::TEXT[], true, false, false, true, 5),
+  ('Guaraná Antarctica', 'boissons', 'Le soda brésilien iconique, servi bien frais', 5.00, NULL, '/images/placeholder.jpeg', ARRAY[]::TEXT[], true, false, false, true, 5),
+  ('Café Brésilien', 'boissons', 'Espresso corsé de grains torréfiés du Minas Gerais', 4.00, NULL, '/images/placeholder.jpeg', ARRAY[]::TEXT[], true, false, false, true, 5),
+  ('Água de Coco', 'boissons', 'Eau de coco naturelle, fraîche et désaltérante', 6.00, NULL, '/images/placeholder.jpeg', ARRAY[]::TEXT[], true, false, false, true, 5);
+
+-- ─── REVIEWS ───
 INSERT INTO reviews (customer_name, rating, comment, approved) VALUES
-  ('Sophie Martin', 5, 'Cuisine exceptionnelle et service parfait !', true),
-  ('Lucas Bernard', 4, 'Très bon restaurant, ambiance chaleureuse.', true);
+  ('Sophie Martin', 5, 'Cuisine exceptionnelle et service parfait ! La moqueca de crevettes est un délice.', true),
+  ('Lucas Bernard', 4, 'Très bon restaurant, ambiance chaleureuse. Les côtes de bœuf confites sont incroyables.', true),
+  ('Maria Silva', 5, 'Un vrai goût du Brésil à Paris ! Les pastéis sont aussi bons que ceux de São Paulo.', true),
+  ('Jean-Pierre Dupont', 5, 'Meilleur restaurant brésilien de la région. La feijoada complète est authentique.', true),
+  ('Ana Oliveira', 4, 'Très bonne cuisine, le poulet fermier est délicieux. Service attentionné.', true),
+  ('Pierre Lefèvre', 5, 'Le pudim de Dona Maria est divin ! On se croirait au Brésil.', true),
+  ('Isabelle Costa', 4, 'Belle découverte ! L''açaí bowl et le saumon grillé sont excellents.', true),
+  ('Thomas Moreau', 5, 'Ambiance familiale et plats généreux. La caipirinha est parfaite !', true);
 
 -- ============ RAFRAÎCHIR LE CACHE PostgREST ============
 NOTIFY pgrst, 'reload schema';

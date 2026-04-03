@@ -19,12 +19,18 @@ const Gallery = () => {
   const images = [
     { id: 1, src: '/images/restaurant/salle-principale.jpeg', category: 'ambiance', alt: 'Salle principale' },
     { id: 2, src: '/images/restaurant/facade.jpeg', category: 'ambiance', alt: 'Façade du restaurant' },
-    { id: 3, src: '/images/menu/viandes/costela.jpeg', category: 'plats', alt: 'Costela' },
+    { id: 3, src: '/images/menu/viandes/costela.jpeg', category: 'plats', alt: 'Côtes de Bœuf Confites' },
     { id: 4, src: '/images/menu/viandes/escalope-parmigiana.jpeg', category: 'plats', alt: 'Escalope Parmigiana' },
-    { id: 5, src: '/images/menu/volailles/frango-caipara.jpeg', category: 'plats', alt: 'Frango Caipara' },
+    { id: 5, src: '/images/menu/volailles/frango-caipira.jpeg', category: 'plats', alt: 'Poulet Fermier' },
     { id: 6, src: '/images/menu/desserts/pudim.jpeg', category: 'plats', alt: 'Pudim' },
-    { id: 7, src: '/images/team/dona-maria.jpeg', category: 'equipe', alt: 'Dona Maria - Chef' },
-    { id: 8, src: '/images/restaurant/salle-principale.jpeg', category: 'evenements', alt: 'Anniversaire' },
+    { id: 7, src: '/images/menu/entrees/pasteis-de-queijo.png', category: 'plats', alt: 'Pastéis de Queijo' },
+    { id: 8, src: '/images/menu/entrees/coxinha.png', category: 'plats', alt: 'Coxinha' },
+    { id: 9, src: '/images/menu/poissons/saumon-grille.png', category: 'plats', alt: 'Saumon Grillé' },
+    { id: 10, src: '/images/menu/poissons/moqueca-crevettes.png', category: 'plats', alt: 'Moqueca de Crevettes' },
+    { id: 11, src: '/images/menu/desserts/acai-bowl.png', category: 'plats', alt: 'Açaí Bowl' },
+    { id: 12, src: '/images/menu/desserts/tiramisu.png', category: 'plats', alt: 'Tiramisu' },
+    { id: 13, src: '/images/team/dona-maria.jpeg', category: 'equipe', alt: 'Dona Maria - Chef' },
+    { id: 14, src: '/images/restaurant/salle-principale.jpeg', category: 'evenements', alt: 'Anniversaire' },
   ];
 
   const filteredImages = selectedCategory === 'all'
